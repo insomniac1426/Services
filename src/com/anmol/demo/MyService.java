@@ -23,7 +23,7 @@ public class MyService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/checkCredentials/{username}/{password}")
 	public boolean authenticateUser(@PathParam("username")String username, @PathParam("password")String password) throws SQLException {
-		GenericUser gu = MyJDBCOperations.searchUser(username);
+		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		//System.out.println(gu);
 		//System.out.println(username);
 		if(gu == null) {

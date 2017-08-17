@@ -7,13 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class MyJDBCOperations {
+public class GenericUserDaoImpl{
 
 	private static ResultSet res = null;
 	
 	
 	
-	static public GenericUser searchUser(String username) throws SQLException{
+	public static GenericUser searchUser(String username) throws SQLException{
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
