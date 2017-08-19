@@ -1,9 +1,10 @@
 package com.anmol.demo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -13,27 +14,13 @@ import java.sql.SQLException;
 @Path("/login")
 public class MyService {
 	
-	@GET
+	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/first")
-	public String print() {
-		return "Hello";
-	}
-	
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/checkCredentials/{username}/{password}")
-	public boolean authenticateUser(@PathParam("username")String username, @PathParam("password")String password) throws SQLException {
+	@Path("/checkCredentials/")
+	public boolean authenticateUser(@FormParam("username")String username, @FormParam("password")String password) throws SQLException {
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
-		//System.out.println(gu);
-		//System.out.println(username);
-		if(gu == null) {
-			return false;
-		}
-		
-		if(password.equals(gu.getPassword())) {
-			return true;
-		}		
+		if(gu == null)	return false;
+		if(password.equals(gu.getPassword())) { return true; }		
 		return false;
 	}
 	
