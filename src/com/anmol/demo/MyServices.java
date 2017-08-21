@@ -12,6 +12,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 
@@ -61,6 +65,24 @@ public class MyServices {
 		if(!SessionDaoImpl.confirmSession(token, username)){ return false; }
 		SessionDaoImpl.deleteSessionFromTable(username);
 		return true;
+	}
+	
+	@POST
+	@Path("/signupCustomer/")
+	public boolean signUpCustomer(@FormParam("name")String name, @FormParam("email") String email, @FormParam("password")String password) throws SQLException{
+		Customer c = new Customer(name, email, password);
+		if(CustomerDaoImpl.insertIntoCustomers(c)) {
+			return true;
+		}
+		return false;
+	}
+	
+	@GET
+	@Path("/fetchCustomerDetails/")
+	public String fetchCustomerDetails(@CookieParam("token")String token, @CookieParam("username") String username) throws SQLException, JsonGenerationException, JsonMappingException, IOException{
+		Customer c = CustomerDaoImpl.searchUser(username);
+		if(c == null)	{ return null; }
+		return c.convertObjectToJSON();
 	}
 		
 }
