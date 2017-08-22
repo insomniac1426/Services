@@ -1,5 +1,10 @@
 package com.anmol.demo;
 
+
+
+
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -11,10 +16,10 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.sql.SQLException;
@@ -25,9 +30,14 @@ public class MyServices {
 	
 	//@Produces(MediaType.TEXT_HTML) //Later response can redirect to the homepage.
 	@POST
-	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/checkCredentials/")
-	public Response authenticateUser(@FormParam("username")String username, @FormParam("password")String password) throws SQLException {
+	public Response authenticateUser(String data) throws SQLException, JSONException {
+		JSONObject inputJsonObj = new JSONObject(data);
+		String username = inputJsonObj.getString("username");
+		String password = inputJsonObj.getString("password");;
+		System.out.println(username);
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		String token = null;
 		if(gu == null)	{ return null; }
@@ -40,7 +50,7 @@ public class MyServices {
 			SessionDaoImpl.addSessionToTable(s);
 			NewCookie nc1 = new NewCookie(new Cookie("username", username));
 			NewCookie nc2 = new NewCookie(new Cookie("token", token));
-			return Response.ok("Logged in successfully").cookie(nc1, nc2).build();  // Here we can redirect to the landing page
+			return Response.ok("Logged in Successfully").cookie(nc1, nc2).build();  // Here we can redirect to the landing page
 		}		
 		return null;
 	}

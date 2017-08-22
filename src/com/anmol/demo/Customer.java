@@ -34,6 +34,14 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@Override
+	public String toString() {
+		return "Customer [name=" + name + ", email=" + email + ", password=" + password + "]";
+	}
+
+
+
+
 	public String getPassword() {
 		return password;
 	}

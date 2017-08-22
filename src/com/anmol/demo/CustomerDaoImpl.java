@@ -24,7 +24,9 @@ public class CustomerDaoImpl {
 	}
 	
 	public static boolean insertIntoCustomers(Customer c) throws SQLException {
-		if(checkUsernameExistence(c.email)) { return false; }
+		
+		//if(checkUsernameExistence(c.email)) { return false; }
+		
 		Connection conn = SQLConnection.getConnection();
 		PreparedStatement st = conn.prepareStatement("INSERT INTO customers values" + "(?,?,?)");
 		st.setString(1, c.name);
@@ -42,8 +44,9 @@ public class CustomerDaoImpl {
 			String queryString = "select * from customers where email='" + email + "'";
 			res = st.executeQuery(queryString);
 		}
-		if(res == null)	return false;
-		return true;
+		
+		if(res != null)	return true;
+		return false;
 	}
 	
 	public static Customer searchUser(String username) throws SQLException{  //username is email here
