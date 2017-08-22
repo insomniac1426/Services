@@ -40,7 +40,7 @@ public class MyServices {
 		System.out.println(username);
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		String token = null;
-		if(gu == null)	{ return null; }
+		if(gu == null)	{ return Response.serverError().build(); }
 		if(password.equals(gu.getPassword())) { 
 			SecureRandom random = new SecureRandom();
 			byte bytes[] = new byte[20];
@@ -48,11 +48,12 @@ public class MyServices {
 			token = bytes.toString();
 			Session s = new Session(token, gu.getUsername(), gu.getUserType());
 			SessionDaoImpl.addSessionToTable(s);
-			NewCookie nc1 = new NewCookie(new Cookie("username", username));
-			NewCookie nc2 = new NewCookie(new Cookie("token", token));
-			return Response.ok("Logged in Successfully").cookie(nc1, nc2).build();  // Here we can redirect to the landing page
+			NewCookie nc1 = new NewCookie(new Cookie("username", gu.getUsername()));
+			NewCookie nc2 = new NewCookie(new Cookie("token", s.token));
+			NewCookie nc3 = new NewCookie(new Cookie("userType",gu.getUserType()));
+			return Response.ok("Logged in Successfully").cookie(nc1, nc2, nc3).build();  // Here we can redirect to the landing page
 		}		
-		return null;
+		return Response.serverError().build();
 	}
 	
 	@POST
