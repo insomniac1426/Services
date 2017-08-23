@@ -1,20 +1,36 @@
 package com.anmol.demo;
 
 public class Session {
-	String token;
 	String userId;
 	String userType;
 	
-	public Session(String token, String userId, String userType) {
-		this.token = token;
+	public Session(String userId, String userType) {
 		this.userId = userId;
 		this.userType = userType;
 	}
 
 	@Override
 	public String toString() {
-		return "Session [token=" + token + ", userId=" + userId + ", userType=" + userType + "]";
+		return "Session [userId=" + userId + ", userType=" + userType + "]";
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	
 	
 	
 }
