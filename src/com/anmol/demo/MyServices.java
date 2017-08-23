@@ -16,6 +16,8 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.json.JSONException;
@@ -31,7 +33,7 @@ public class MyServices {
 	//@Produces(MediaType.TEXT_HTML) //Later response can redirect to the homepage.
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/checkCredentials/")
 	public Response authenticateUser(String data) throws SQLException, JSONException {
 		JSONObject inputJsonObj = new JSONObject(data);
@@ -40,7 +42,7 @@ public class MyServices {
 		System.out.println(username);
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		String token = null;
-		if(gu == null)	{ return Response.serverError().build(); }
+		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
 		if(password.equals(gu.getPassword())) { 
 			SecureRandom random = new SecureRandom();
 			byte bytes[] = new byte[20];
@@ -51,9 +53,9 @@ public class MyServices {
 			NewCookie nc1 = new NewCookie(new Cookie("username", gu.getUsername()));
 			NewCookie nc2 = new NewCookie(new Cookie("token", s.token));
 			NewCookie nc3 = new NewCookie(new Cookie("userType",gu.getUserType()));
-			return Response.ok("Logged in Successfully").cookie(nc1, nc2, nc3).build();  // Here we can redirect to the landing page
+			return Response.ok("Logged in Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).cookie(nc1, nc2, nc3).build();  // Here we can redirect to the landing page
 		}		
-		return Response.serverError().build();
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 	}
 	
 	@POST
