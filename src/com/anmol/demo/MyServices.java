@@ -1,9 +1,5 @@
 package com.anmol.demo;
 
-
-
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -31,7 +27,7 @@ public class MyServices {
 	public Response authenticateUser(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
 		JSONObject inputJsonObj = new JSONObject(data);
 		String username = inputJsonObj.getString("username");
-		String password = inputJsonObj.getString("password");;
+		String password = inputJsonObj.getString("password");
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
 		if(password.equals(gu.getPassword())) {
@@ -64,15 +60,21 @@ public class MyServices {
 //	
 
 	
-//	@POST
-//	@Path("/signupCustomer/")
-//	public boolean signUpCustomer(@FormParam("name")String name, @FormParam("email") String email, @FormParam("password")String password) throws SQLException{
-//		Customer c = new Customer(name, email, password);
-//		if(CustomerDaoImpl.insertIntoCustomers(c)) {
-//			return true;
-//		}
-//		return false;
-//	}
+@POST
+@Consumes(MediaType.TEXT_PLAIN)
+@Produces(MediaType.TEXT_PLAIN)
+@Path("/signupCustomer/")
+public Response signUpCustomer(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
+	JSONObject inputJsonObj = new JSONObject(data);
+	String name = inputJsonObj.getString("username");
+	String email = inputJsonObj.getString("email");
+	String password = inputJsonObj.getString("password");
+	Customer c = new Customer(name, email, password);
+	if(CustomerDaoImpl.insertIntoCustomers(c)) {
+		return Response.ok("Sign up Successful").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+	}
+	return Response.serverError().status(Status.EXPECTATION_FAILED).build();
+}
 //	
 //	@GET
 //	@Path("/fetchCustomerDetails/")
