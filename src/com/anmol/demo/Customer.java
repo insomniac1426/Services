@@ -9,18 +9,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class Customer {
 	String name;
 	String email;
-	String password;
-	
 	
 	public Customer(String name, String email, String password) {
 		super();
 		this.name = name;
 		this.email = email;
-		this.password = password;
 	}
-	
-	
-		
 	
 	public String getName() {
 		return name;
@@ -36,17 +30,7 @@ public class Customer {
 	}
 	@Override
 	public String toString() {
-		return "Customer [name=" + name + ", email=" + email + ", password=" + password + "]";
-	}
-
-
-
-
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
+		return "Customer [name=" + name + ", email=" + email + "]";
 	}
 	
 	public String convertObjectToJSON() throws JsonGenerationException, JsonMappingException, IOException {

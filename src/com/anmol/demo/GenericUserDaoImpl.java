@@ -2,6 +2,7 @@ package com.anmol.demo;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,4 +39,21 @@ public class GenericUserDaoImpl{
 		}
 		return null;
 	}
+	
+	
+public static boolean insertIntoCustomers(GenericUser c) throws SQLException {
+		
+		//if(checkUsernameExistence(c.email)) { return false; }
+		
+		Connection conn = SQLConnection.getConnection();
+		PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" values" + "(?,?,?,?,?,?)");
+		st.setString(1, c.username);
+		st.setString(1, c.password);
+		st.executeUpdate();
+		return true;
+	}
+	
+	
+	
+	
 }

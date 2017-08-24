@@ -10,9 +10,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.Date;
 import java.sql.SQLException;
 
 
@@ -32,7 +33,7 @@ public class MyServices {
 		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
 		if(password.equals(gu.getPassword())) {
 			Session s = new Session(gu.getUsername(), gu.getUserType());
-			HttpSession hs = request.getSession();
+			HttpSession hs = request.getSession();//CREATE A SESSION FOR THE USER.
 			hs.setAttribute("session", s);
 			return Response.ok("Logged in Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();  // Here we can redirect to the landing page
 		}		
@@ -69,12 +70,17 @@ public Response signUpCustomer(String data, @Context HttpServletRequest request)
 	String name = inputJsonObj.getString("username");
 	String email = inputJsonObj.getString("email");
 	String password = inputJsonObj.getString("password");
-	Customer c = new Customer(name, email, password);
+	
+	Customer c = new Customer(email, name, password);
+	GenericUser gu = new GenericUser(email,password,lastLogin,"cust",0,0);
+	System.out.println(c);
+	
 	if(CustomerDaoImpl.insertIntoCustomers(c)) {
-		return Response.ok("Sign up Successful").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		return Response.ok("hi").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
 	}
 	return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 }
+
 //	
 //	@GET
 //	@Path("/fetchCustomerDetails/")

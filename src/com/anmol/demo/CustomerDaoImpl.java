@@ -28,10 +28,9 @@ public class CustomerDaoImpl {
 		//if(checkUsernameExistence(c.email)) { return false; }
 		
 		Connection conn = SQLConnection.getConnection();
-		PreparedStatement st = conn.prepareStatement("INSERT INTO customers values" + "(?,?,?)");
-		st.setString(1, c.name);
-		st.setString(2, c.email);
-		st.setString(3, c.password);
+		PreparedStatement st = conn.prepareStatement("INSERT INTO \"Customer_user\" values" + "(?,?)");
+		st.setString(1, c.email);
+		st.setString(2, c.name);
 		st.executeUpdate();
 		return true;
 	}
@@ -41,7 +40,7 @@ public class CustomerDaoImpl {
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
-			String queryString = "select * from customers where email='" + email + "'";
+			String queryString = "select * from \"Customer_user\" where email='" + email + "'";
 			res = st.executeQuery(queryString);
 		}
 		
@@ -54,7 +53,7 @@ public class CustomerDaoImpl {
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
-			String queryString = "select * from customers where useremail='" + username + "'";
+			String queryString = "select * from \"Customer_user\" where useremail='" + username + "'";
 			res = st.executeQuery(queryString);
 			Customer gu = convertResToObject();
 			return gu;

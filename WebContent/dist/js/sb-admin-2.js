@@ -198,6 +198,7 @@ app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$
 }]);
 
 
+
 app.controller("TestController", ["$scope", "$http", function($scope, $http) {
 
     $scope.UserNameMod = "";
@@ -214,3 +215,55 @@ app.controller("TestController", ["$scope", "$http", function($scope, $http) {
     }
 
 }]);
+
+
+var Signupapp = angular.module("SignupApp", []);
+
+Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSerializer", "$window", function($scope, $http, $httpParamSerializer, $window){
+		
+	$scope.UserNameMod = "";
+    $scope.EmailMod = "";
+    $scope.Password = "";
+    $scope.RePassword = "";
+    
+    $scope.SubmitSignup = function () {
+       var data = {
+            username: $scope.UserNameMod,
+            email:$scope.EmailMod,
+            password: $scope.Password
+        }
+       console.log(data);
+        var promise = $http({
+            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            data: {
+            	username: $scope.UserNameMod,
+                email:$scope.EmailMod,
+                password: $scope.Password
+            }
+        });
+        promise.then(function(response){
+            //$location.url('./Dashboard.html')
+        	console.log(response);
+        	$window.location.href = './HomePage.html'
+        });
+    }
+	
+}]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
