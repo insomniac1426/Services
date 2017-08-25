@@ -3,15 +3,22 @@ package com.anmol.demo;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -31,7 +38,13 @@ public class MyServices {
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
 		if(password.equals(gu.getPassword())) {
-			Session s = new Session(gu.getUsername(), gu.getUserType());
+			String TypeOfUser = null;
+			if (gu.getUserType()) {
+				TypeOfUser = "Bank";
+			} else {
+				TypeOfUser = "Customer";
+			}
+			Session s = new Session(gu.getUsername(), TypeOfUser);
 			HttpSession hs = request.getSession();//CREATE A SESSION FOR THE USER.
 			hs.setAttribute("session", s);
 			return Response.ok("Logged in Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();  // Here we can redirect to the landing page
@@ -60,33 +73,33 @@ public class MyServices {
 //	
 
 	
-@POST
-@Consumes(MediaType.TEXT_PLAIN)
-@Produces(MediaType.TEXT_PLAIN)
-@Path("/signupCustomer/")
-public Response signUpCustomer(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
-	JSONObject inputJsonObj = new JSONObject(data);
-	String name = inputJsonObj.getString("username");
-	String email = inputJsonObj.getString("email");
-	String password = inputJsonObj.getString("password");
-	Date curdate = null;
-	Customer c = new Customer(email, name, password);
-	GenericUser gu = new GenericUser(email,password, curdate,"cust",0,0);
-	System.out.println(c);
-	
-	if(CustomerDaoImpl.insertIntoCustomers(gu,c)) {
-		return Response.ok("hi").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
-	}
-	return Response.serverError().status(Status.EXPECTATION_FAILED).build();
-}
-
-//	
-//	@GET
-//	@Path("/fetchCustomerDetails/")
-//	public String fetchCustomerDetails(@Context HttpServletRequest request) throws SQLException, JsonGenerationException, JsonMappingException, IOException{
-//		Customer c = CustomerDaoImpl.searchUser(username);
-//		if(c == null)	{ return null; }
-//		return c.convertObjectToJSON();
-//	}
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/signupCustomer/")
+	public Response signUpCustomer(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
+		JSONObject inputJsonObj = new JSONObject(data);
+		String name = inputJsonObj.getString("username");
+		String email = inputJsonObj.getString("email");
+		String password = inputJsonObj.getString("password");
 		
+		Customer c = new Customer(name, email);
+		GenericUser gu = new GenericUser(email,password,false, false, false);
+		System.out.println(c);
+		
+		if(CustomerDaoImpl.insertIntoCustomers(gu,c)) {
+			return Response.ok("SignupSuccess").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		}
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
+	}
+	
+	@GET
+	@Path("/fetchCustomerDetails/{uname}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchCustomerDetails(@QueryParam("uname") String Uname ,@Context HttpServletRequest request) throws SQLException, JsonGenerationException, JsonMappingException, IOException{
+		Customer c = CustomerDaoImpl.searchCustomer(Uname);
+		if(c == null)	{ return null; }
+		return c.convertObjectToJSON();
+	}
+			
 }

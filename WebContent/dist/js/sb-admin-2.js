@@ -245,8 +245,9 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
         });
         promise.then(function(response){
             //$location.url('./Dashboard.html')
-        	console.log(response);
+        	
         	$window.location.href = './HomePage.html'
+        	console.log(response.data);
         });
     }
 	

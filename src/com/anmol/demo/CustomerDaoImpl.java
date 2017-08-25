@@ -11,16 +11,15 @@ public class CustomerDaoImpl {
 	private static ResultSet res = null;
 	
 	private static Customer convertResToObject() throws SQLException{
-		Customer gu = null;
+		Customer c = null;
 		if(res != null) {
 			while(res.next()) {
 				String name = res.getString(1);
 				String email = res.getString(2);
-				String password = res.getString(3);
-				gu = new Customer(name, email, password);
+				c = new Customer(name, email);
 			}
 		}
-		return gu;
+		return c;
 	}
 	
 	public static boolean insertIntoCustomers(GenericUser gu, Customer c) throws SQLException {
@@ -38,7 +37,7 @@ public class CustomerDaoImpl {
 		return false;
 	}
 	
-	public static boolean checkUsernameExistence(String email) throws SQLException{
+	public static boolean checkCustomerExistence(String email) throws SQLException{
 		res = null;
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
@@ -51,15 +50,15 @@ public class CustomerDaoImpl {
 		return false;
 	}
 	
-	public static Customer searchUser(String username) throws SQLException{  //username is email here
+	public static Customer searchCustomer(String username) throws SQLException{  //username is email here
 		res = null;
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
 			String queryString = "select * from \"Customer_user\" where useremail='" + username + "'";
 			res = st.executeQuery(queryString);
-			Customer gu = convertResToObject();
-			return gu;
+			Customer c = convertResToObject();
+			return c;
 		}
 		return null;
 	}

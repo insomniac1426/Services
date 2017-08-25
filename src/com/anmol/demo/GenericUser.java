@@ -6,17 +6,15 @@ import java.sql.Date;
 public class GenericUser {
 	private String username;
 	private String password;
-	private Date lastLogin;
-	private String userType;
-	private int isActive;
-	private int isConfirmed;
+	private boolean userType;
+	private boolean isActive;
+	private boolean isConfirmed;
 	
 	
-	public GenericUser(String username, String password, Date lastLogin, String userType, int isActive,
-			int isConfirmed) {
+	public GenericUser(String username, String password, boolean isActive,
+			boolean isConfirmed, boolean userType) {
 		this.username = username;
 		this.password = password;
-		this.lastLogin = lastLogin;
 		this.userType = userType;
 		this.isActive = isActive;
 		this.isConfirmed = isConfirmed;
@@ -43,28 +41,23 @@ public class GenericUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Date getLastLogin() {
-		return lastLogin;
-	}
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
-	}
-	public String getUserType() {
+	
+	public boolean getUserType() {
 		return userType;
 	}
-	public void setUserType(String userType) {
+	public void setUserType(boolean userType) {
 		this.userType = userType;
 	}
-	public int isActive() {
+	public boolean isActive() {
 		return isActive;
 	}
-	public void setActive(int isActive) {
+	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	public int isConfirmed() {
+	public boolean isConfirmed() {
 		return isConfirmed;
 	}
-	public void setConfirmed(int isConfirmed) {
+	public void setConfirmed(boolean isConfirmed) {
 		this.isConfirmed = isConfirmed;
 	}
 	

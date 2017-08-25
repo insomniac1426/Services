@@ -17,11 +17,10 @@ public class GenericUserDaoImpl{
 			while(res.next()) {
 				String uID = res.getString(1);
 				String password = res.getString(2);
-				Date lastLogin = res.getDate(3);
-				String userType = res.getString(4);
-				int isActive = res.getInt(5);
-				int isConfirmed = res.getInt(6);
-				gu = new GenericUser(uID, password, lastLogin, userType, isActive, isConfirmed);
+				boolean isActive = res.getBoolean(3);
+				boolean isConfirmed = res.getBoolean(4);
+				boolean userType = res.getBoolean(5);
+				gu = new GenericUser(uID, password, isActive, isConfirmed, userType);
 			}
 		}
 		return gu;
@@ -46,13 +45,12 @@ public static boolean insertIntoUser(GenericUser gu) throws SQLException {
 		//if(checkUsernameExistence(c.email)) { return false; }
 		
 		Connection conn = SQLConnection.getConnection();
-		PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" values" + "(?,?,?,?,?,?)");
+		PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" values" + "(?,?,?,?,?)");
 		st.setString(1, gu.getUsername());
-		st.setString(1, gu.getPassword());
-		st.setString(3, null);
-		st.setString(4, gu.getUserType());
-		st.setInt(5, gu.isActive());
-		st.setInt(6, gu.isConfirmed());
+		st.setString(2, gu.getPassword());
+		st.setBoolean(5, gu.getUserType());
+		st.setBoolean(3, gu.isActive());
+		st.setBoolean(4, gu.isConfirmed());
 		st.executeUpdate();
 		
 		return true;
