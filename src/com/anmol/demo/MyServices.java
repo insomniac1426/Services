@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -70,12 +69,12 @@ public Response signUpCustomer(String data, @Context HttpServletRequest request)
 	String name = inputJsonObj.getString("username");
 	String email = inputJsonObj.getString("email");
 	String password = inputJsonObj.getString("password");
-	
+	Date curdate = null;
 	Customer c = new Customer(email, name, password);
-	GenericUser gu = new GenericUser(email,password,lastLogin,"cust",0,0);
+	GenericUser gu = new GenericUser(email,password, curdate,"cust",0,0);
 	System.out.println(c);
 	
-	if(CustomerDaoImpl.insertIntoCustomers(c)) {
+	if(CustomerDaoImpl.insertIntoCustomers(gu,c)) {
 		return Response.ok("hi").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
 	}
 	return Response.serverError().status(Status.EXPECTATION_FAILED).build();

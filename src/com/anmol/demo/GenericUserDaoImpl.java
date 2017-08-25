@@ -41,19 +41,20 @@ public class GenericUserDaoImpl{
 	}
 	
 	
-public static boolean insertIntoCustomers(GenericUser c) throws SQLException {
+public static boolean insertIntoUser(GenericUser gu) throws SQLException {
 		
 		//if(checkUsernameExistence(c.email)) { return false; }
 		
 		Connection conn = SQLConnection.getConnection();
 		PreparedStatement st = conn.prepareStatement("INSERT INTO \"User\" values" + "(?,?,?,?,?,?)");
-		st.setString(1, c.username);
-		st.setString(1, c.password);
+		st.setString(1, gu.getUsername());
+		st.setString(1, gu.getPassword());
+		st.setString(3, null);
+		st.setString(4, gu.getUserType());
+		st.setInt(5, gu.isActive());
+		st.setInt(6, gu.isConfirmed());
 		st.executeUpdate();
+		
 		return true;
 	}
-	
-	
-	
-	
 }

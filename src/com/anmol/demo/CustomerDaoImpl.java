@@ -23,16 +23,19 @@ public class CustomerDaoImpl {
 		return gu;
 	}
 	
-	public static boolean insertIntoCustomers(Customer c) throws SQLException {
+	public static boolean insertIntoCustomers(GenericUser gu, Customer c) throws SQLException {
 		
-		//if(checkUsernameExistence(c.email)) { return false; }
+		if (GenericUserDaoImpl.insertIntoUser(gu)) {
+			Connection conn = SQLConnection.getConnection();
+			PreparedStatement st = conn.prepareStatement("INSERT INTO \"Customer_user\" values" + "(?,?)");
+			st.setString(1, c.email);
+			st.setString(2, c.name);
+			st.executeUpdate();
+			return true;
 		
-		Connection conn = SQLConnection.getConnection();
-		PreparedStatement st = conn.prepareStatement("INSERT INTO \"Customer_user\" values" + "(?,?)");
-		st.setString(1, c.email);
-		st.setString(2, c.name);
-		st.executeUpdate();
-		return true;
+		}
+		
+		return false;
 	}
 	
 	public static boolean checkUsernameExistence(String email) throws SQLException{

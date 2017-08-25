@@ -4,8 +4,8 @@ import java.sql.Date;
 
 
 public class GenericUser {
-	String username;
-	String password;
+	private String username;
+	private String password;
 	private Date lastLogin;
 	private String userType;
 	private int isActive;
