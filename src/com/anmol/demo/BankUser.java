@@ -8,20 +8,27 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 public class BankUser{
 	
-	
+	String Username;
 	String Fullname;
     String address;
 	String p_group;
 	//ctor
 	public BankUser( String Fullname,String address,String p_group) {
 		super();
-		
+		this.Username=Username;
 		this.Fullname = Fullname;
 		this.address=address;
 		this.p_group=p_group;
 		
 	}
-	 
+	
+	public String getUsername() {
+		return Username;
+	}
+	public void setUsername(String Username) {
+		this.Username = Username;
+	}
+	
 	public String getFullname() {
 		return Fullname;
 	}
@@ -44,7 +51,7 @@ public class BankUser{
 	}
 	@Override
 	public String toString() {
-		return "BankUser [  Fullname=" + Fullname + " , address="+ address + ", p_group=" + p_group + "]";
+		return "BankUser [ Fullname=" + Fullname + " , address="+ address + ", p_group=" + p_group + "]";
 	}
 
 

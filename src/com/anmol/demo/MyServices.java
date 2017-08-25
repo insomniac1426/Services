@@ -39,7 +39,7 @@ public class MyServices {
 		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
 		if(password.equals(gu.getPassword())) {
 			String TypeOfUser = null;
-			if (gu.getUserType()) {
+			if (gu.get_is_Bank_User()) {
 				TypeOfUser = "Bank";
 			} else {
 				TypeOfUser = "Customer";
@@ -79,11 +79,11 @@ public class MyServices {
 	@Path("/signupCustomer/")
 	public Response signUpCustomer(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
 		JSONObject inputJsonObj = new JSONObject(data);
-		String name = inputJsonObj.getString("username");
+		String name = inputJsonObj.getString("name");
 		String email = inputJsonObj.getString("email");
 		String password = inputJsonObj.getString("password");
 		
-		Customer c = new Customer(name, email);
+		Customer c = new Customer(name,email);
 		GenericUser gu = new GenericUser(email,password,false, false, false);
 		System.out.println(c);
 		
@@ -92,6 +92,37 @@ public class MyServices {
 		}
 		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 	}
+	
+	/*
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/signupUser/")
+	public Response signupUser(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
+		JSONObject inputJsonObj = new JSONObject(data);
+		String username= inputJsonObj.getString("username");
+		String password = inputJsonObj.getString("password");
+		String Fullname = inputJsonObj.getString("Fullname");
+		String address = inputJsonObj.getString("address");
+		String p_group = inputJsonObj.getString("p_group");
+		BankUser b = new BankUser(username,Fullname,address,p_group);
+		GenericUser gu = new GenericUser(username,password,false, false, false);
+		System.out.println(b);
+		
+		if(CustomerDaoImpl.insertIntoCustomers(gu,b)) {
+			return Response.ok("SignupSuccess").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		}
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
+	}
+	
+	*/
+	
+	
+	
+	
+	
+	
+	
 	
 	@GET
 	@Path("/fetchCustomerDetails/{uname}")

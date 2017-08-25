@@ -227,28 +227,32 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
     $scope.RePassword = "";
     
     $scope.SubmitSignup = function () {
-       var data = {
-            username: $scope.UserNameMod,
-            email:$scope.EmailMod,
-            password: $scope.Password
-        }
-       console.log(data);
-        var promise = $http({
-            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            data: {
-            	username: $scope.UserNameMod,
-                email:$scope.EmailMod,
-                password: $scope.Password
-            }
-        });
-        promise.then(function(response){
-            //$location.url('./Dashboard.html')
-        	
-        	$window.location.href = './HomePage.html'
-        	console.log(response.data);
-        });
+	    if ($scope.Password == $scope.RePassword){
+	       var data = {
+	            name: $scope.UserNameMod,
+	            email:$scope.EmailMod,
+	            password: $scope.Password
+	        }
+	       console.log(data);
+	        var promise = $http({
+	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
+	            method: 'POST',
+	            headers: { 'Content-Type': 'text/plain' },
+	            data: {
+	            	name: $scope.UserNameMod,
+	                email:$scope.EmailMod,
+	                password: $scope.Password
+	            }
+	        });
+	        promise.then(function(response){
+	            //$location.url('./Dashboard.html')
+	        	
+	        	$window.location.href = './HomePage.html'
+	        	console.log(response.data);
+	        });
+	    } else {
+	    	 console.log("credentials not matching"); 
+	    }
     }
 	
 }]);

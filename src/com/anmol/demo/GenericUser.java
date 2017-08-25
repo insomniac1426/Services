@@ -6,25 +6,25 @@ import java.sql.Date;
 public class GenericUser {
 	private String username;
 	private String password;
-	private boolean userType;
 	private boolean isActive;
 	private boolean isConfirmed;
+	private boolean is_Bank_User;
 	
 	
-	public GenericUser(String username, String password, boolean isActive,
-			boolean isConfirmed, boolean userType) {
+	public GenericUser(String username, String password,
+		boolean isConfirmed, boolean userType,boolean is_Bank_User) {
 		this.username = username;
 		this.password = password;
-		this.userType = userType;
 		this.isActive = isActive;
 		this.isConfirmed = isConfirmed;
+		this.is_Bank_User=is_Bank_User;
 	}
 	
 	
 	
 	@Override
 	public String toString() {
-		return "GenericUser [username=" + username + ", userType=" + userType + "]";
+		return "GenericUser [username=" + username +  "]";
 	}
 
 
@@ -42,11 +42,11 @@ public class GenericUser {
 		this.password = password;
 	}
 	
-	public boolean getUserType() {
-		return userType;
+	public boolean get_is_Bank_User() {
+		return is_Bank_User;
 	}
-	public void setUserType(boolean userType) {
-		this.userType = userType;
+	public void set_is_Bank_User(boolean is_Bank_User) {
+		this.is_Bank_User = is_Bank_User;
 	}
 	public boolean isActive() {
 		return isActive;
