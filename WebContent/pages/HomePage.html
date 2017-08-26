@@ -300,14 +300,14 @@
 								<div class = "col-sm-offset-1 col-sm-10">
 								<p>{{2+2}}</p>
 					<!-- ==========================form start =========================== -->
-									<form id = "LoginForm" method="post">
+									<form name = "myForm" id = "LoginForm" method="post">
 										<div class = "row">
 											<div id = "UserNameUnit" class="col-sm-offset-1 col-sm-10">
 												<div id = "UserNameUnitLabel">
 													<p style="opacity:0.6; margin:0px"><b>Login ID</b></p>
 												</div>
 												<div>
-													<input ng-model="UserNameMod" id = "UserNameUnitInput" type="text" name="LoginId" >
+													<input ng-model="UserNameMod" id = "UserNameUnitInput" type="text" name="LoginId" required>
 												</div>
 											</div>
 										</div>
@@ -320,7 +320,7 @@
 															<b>Password</b>
 														</p>
 													</div>
-													<input ng-model="PasswordMod" id="PasswordUnitInput" type="password" name="password" />
+													<input ng-model="PasswordMod" id="PasswordUnitInput" type="password" name="password" required />
 											</div>
 										</div>
 										

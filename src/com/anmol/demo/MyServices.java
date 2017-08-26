@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 
 
@@ -33,17 +32,22 @@ public class MyServices {
 	@Path("/checkCredentials/")
 	public Response authenticateUser(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
 		JSONObject inputJsonObj = new JSONObject(data);
+		System.out.println("hi0");
 		String username = inputJsonObj.getString("username");
 		String password = inputJsonObj.getString("password");
+		
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
+		System.out.println("hi");
 		if(password.equals(gu.getPassword())) {
 			String TypeOfUser = null;
+			
 			if (gu.get_is_Bank_User()) {
 				TypeOfUser = "Bank";
 			} else {
 				TypeOfUser = "Customer";
 			}
+			
 			Session s = new Session(gu.getUsername(), TypeOfUser);
 			HttpSession hs = request.getSession();//CREATE A SESSION FOR THE USER.
 			hs.setAttribute("session", s);

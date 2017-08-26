@@ -1,7 +1,5 @@
 package com.anmol.demo;
 
-import java.sql.Date;
-
 
 public class GenericUser {
 	private String username;
@@ -11,8 +9,7 @@ public class GenericUser {
 	private boolean is_Bank_User;
 	
 	
-	public GenericUser(String username, String password,
-		boolean isConfirmed, boolean userType,boolean is_Bank_User) {
+	public GenericUser(String username, String password,boolean isConfirmed, boolean isActive,boolean is_Bank_User) {
 		this.username = username;
 		this.password = password;
 		this.isActive = isActive;

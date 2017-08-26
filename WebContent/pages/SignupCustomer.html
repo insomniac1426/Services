@@ -18,6 +18,13 @@
 	<title>Signup Page For Customer</title>
 	
 	<style type="text/css">
+		.changedcorrect {
+			box-shadow: 0 8px 16px 10 rgba(0, 1, 0, 0.5);
+		}
+		.changedincorrect {
+			box-shadow: 0 8px 16px 10 rgba(1, 0, 0, 0.5);
+		}
+		
     	body {
     		background-color: #333;
 			color:white;
@@ -149,12 +156,11 @@
 								</div>
 								<br>
 								<div class = "row">
-									<div class = "col-sm-offset-2 col-sm-8 FormInputs">
+									<div class = "col-sm-offset-2 col-sm-8 FormInputs {{validclass}}">
 										<div class= "FormInputLabels">
 											<p style="margin-bottom: 0px"><b>Retype Password</b></p>
 										</div>
-										<input type="input"  ng-model="RePassword" name="RePassword" class="FormTextInputs" required />
-										<i class = "fa {{imgtype}}" style="color:{{colortype}}"></i>
+										<input type="input"  ng-model="RePassword" name="RePassword" class="FormTextInputs" ng-change="chkValidation()" required />
 									</div>
 								</div>
 								<br>

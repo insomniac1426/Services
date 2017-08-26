@@ -170,29 +170,35 @@ app.controller("mySignupSwitch", ["$scope", function($scope) {
 
 
  
-app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$window", function($scope, $http, $httpParamSerializer, $window) {
+app.controller("LoginController", ["$valid","$scope", "$http", "$httpParamSerializer", "$window", function($valid,$scope, $http, $httpParamSerializer, $window) {
 
     $scope.UserNameMod = "";
     $scope.PasswordMod = "";
+    console.log("controller loaded")
     $scope.LoginClick = function () {
-       var data = {
-            username: $scope.UserNameMod,
-            password: $scope.PasswordMod
+        console.log("Clicked")
+        if (($scope.UserNameMod != "") && ($scope.PasswordMod != "")) {
+            var data = {
+                username: $scope.UserNameMod,
+                password: $scope.PasswordMod
+            }
+           
+            var promise = $http({
+                url: 'http://localhost:8080/MyRestDemo/rest/login/checkCredentials',
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                data: {
+    	            username: $scope.UserNameMod,
+    	            password: $scope.PasswordMod
+                }
+            })
+            promise.then(function(){
+                //$location.url('./Dashboard.html')
+            	$window.location.href = './Dashboard.html'
+            })
+            console.log("click return")
         }
 
-        var promise = $http({
-            url: 'http://localhost:8089/MyRestDemo/rest/login/checkCredentials',
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            data: {
-            username: $scope.UserNameMod,
-            password: $scope.PasswordMod
-            }
-        })
-        promise.then(function(){
-            //$location.url('./Dashboard.html')
-        	$window.location.href = './Dashboard.html'
-        })
     }
 
 }]);
@@ -207,7 +213,7 @@ app.controller("TestController", ["$scope", "$http", function($scope, $http) {
        
 
         var promise = $http({
-            url: 'http://localhost:8089/MyRestDemo/rest/login/getUserInfo',
+            url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' }
         })
@@ -225,9 +231,19 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
     $scope.EmailMod = "";
     $scope.Password = "";
     $scope.RePassword = "";
+    $scope.validclass="";
+    
+    $scope.chkValidation = function() {
+        if ($scope.Password == $scope.RePassword) {
+            $scope.validclass="changedcorrect";
+        } else {
+            $scope.validclass="changedincorrect";
+        }
+    }
     
     $scope.SubmitSignup = function () {
-	    if ($scope.Password == $scope.RePassword){
+
+	    if ((myForm.myInput.$valid)&&($scope.Password == $scope.RePassword)){
 	       var data = {
 	            name: $scope.UserNameMod,
 	            email:$scope.EmailMod,
@@ -235,7 +251,7 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
 	        }
 	       console.log(data);
 	        var promise = $http({
-	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
+	            url: 'http://localhost:8080/MyRestDemo/rest/login/signupCustomer/',
 	            method: 'POST',
 	            headers: { 'Content-Type': 'text/plain' },
 	            data: {

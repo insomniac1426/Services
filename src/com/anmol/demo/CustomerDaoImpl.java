@@ -42,7 +42,7 @@ public class CustomerDaoImpl {
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
-			String queryString = "select * from \"Customer_user\" where email='" + email + "'";
+			String queryString = "select * from \"Customer_user\" where \"Username\"='" + email + "'";
 			res = st.executeQuery(queryString);
 		}
 		
@@ -55,7 +55,7 @@ public class CustomerDaoImpl {
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
-			String queryString = "select * from \"Customer_user\" where useremail='" + username + "'";
+			String queryString = "select * from \"Customer_user\" where \"Username\" ='" + username + "'";
 			res = st.executeQuery(queryString);
 			Customer c = convertResToObject();
 			return c;

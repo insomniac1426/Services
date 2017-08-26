@@ -1,7 +1,6 @@
 package com.anmol.demo;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,12 +29,15 @@ public class GenericUserDaoImpl{
 	
 	public static GenericUser searchUser(String username) throws SQLException{
 		res = null;
+		
 		Connection conn = SQLConnection.getConnection();
 		if(conn != null) {
 			Statement st = conn.createStatement();
-			String queryString = "select * from  \"User\" where Username='" + username + "'";
+			System.out.println("in GenericUser searchUser");
+			String queryString = "select * from  \"User\" where \"Username\"='" + username + "'";
 			res = st.executeQuery(queryString);
 			GenericUser gu = convertResToObject();
+			System.out.println("out GenericUser searchUser");
 			return gu;
 		}
 		return null;
