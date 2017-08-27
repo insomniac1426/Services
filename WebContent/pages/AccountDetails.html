@@ -99,7 +99,7 @@
 
 <body ng-app="app"  >
 
-    <div id="wrapper" >
+    <div id="wrapper" ng-controller="TestController">
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -580,6 +580,49 @@
             	})
             	
             }
+		}]);
+		app.controller("TestController", ["$scope", "$http", "$window", function($scope, $http, $window) {
+			
+		    $scope.UserNameMod = "";
+		    $scope.PasswordMod = "";
+		    console.log("controller loaded");
+		    var promise = $http({
+		        url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+		        method: 'POST',
+		        headers: { 'Content-Type': 'text/plain' }
+		    });
+		    promise.then(function (response) {
+		    	console.log(response);
+		    	
+		    	if (response.data == "no session") {
+		    		$window.location.href = './HomePage.html'
+		    	} else {
+		    		console.log(response.data.username);
+		        	console.log(response.data.userType);
+		    	//var data = JSON.parse(response.data)
+		    	}
+		    }, function(response) {
+		    	console.log("couldnot load data");
+		    });
+		    
+		    $scope.TestClick = function () {
+
+		        var promise = $http({
+		            url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+		            method: 'POST',
+		            headers: { 'Content-Type': 'text/plain' }
+		        });
+		        promise.then(function (response) {
+		        	console.log(response);
+		        	//var data = JSON.parse(response.data)
+		        	console.log(response.data.username);
+		        	console.log(response.data.userType);
+		        }, function(response) {
+		        	console.log("couldnot load data");
+		        });
+		        
+		    }
+
 		}]);
 		app.controller('myController',[ '$scope', '$http', function($scope, $http) {
             $scope.UpdateDet = function(){

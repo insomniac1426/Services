@@ -195,6 +195,9 @@ app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$
             promise.then(function(){
                 //$location.url('./Dashboard.html')
             	$window.location.href = './Dashboard.html'
+            }, function(response){
+            	console.log("could not login!")
+            	
             })
             console.log("click return")
         }
@@ -204,19 +207,46 @@ app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$
 }]);
 
 
-
-app.controller("TestController", ["$scope", "$http", function($scope, $http) {
-
+var testSession = angular.module("sessionApp", []);
+testSession.controller("TestController", ["$scope", "$http", "$window", function($scope, $http, $window) {
+	
     $scope.UserNameMod = "";
     $scope.PasswordMod = "";
+    console.log("controller loaded");
+    var promise = $http({
+        url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' }
+    });
+    promise.then(function (response) {
+    	console.log(response);
+    	
+    	if (response.data == "no session") {
+    		$window.location.href = './HomePage.html'
+    	} else {
+    		console.log(response.data.username);
+        	console.log(response.data.userType);
+    	//var data = JSON.parse(response.data)
+    	}
+    }, function(response) {
+    	console.log("couldnot load data");
+    });
+    
     $scope.TestClick = function () {
-       
 
         var promise = $http({
             url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' }
-        })
+        });
+        promise.then(function (response) {
+        	console.log(response);
+        	//var data = JSON.parse(response.data)
+        	console.log(response.data.username);
+        	console.log(response.data.userType);
+        }, function(response) {
+        	console.log("couldnot load data");
+        });
         
     }
 

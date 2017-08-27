@@ -61,13 +61,13 @@ public class MyServices {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/getUserInfo/")
-	public Response checkToken(@Context HttpServletRequest request) throws SQLException{
+	public String checkToken(@Context HttpServletRequest request) throws SQLException, JSONException{
 		Session s = SessionUtility.sessionValidation(request);
 		if(s != null) {
-			String json = "{'username': '" + s.getUserId() + "', 'userType': '" + s.userType + "'}";
-			return Response.ok(json).status(Status.OK).build();
+			String obj = "{\"username\": \"" + s.getUserId() + "\", \"userType\": \"" + s.userType + "\"}";
+			return obj;
 		}
-		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
+		return "no session";
 	}
 	
 //	@POST

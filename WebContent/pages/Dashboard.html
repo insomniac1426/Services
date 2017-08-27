@@ -46,7 +46,7 @@ opacity: 0.9;
     </style>
 </head>
 
-<body>
+<body ng-app="sessionApp" ng-controller="TestController">
 
     <div id="wrapper">
 
@@ -319,7 +319,7 @@ opacity: 0.9;
 	        <div class="col-sm-offset-1 col-sm-8">
 		        <div style="margin-top: 10px">
 		            <div class="row">
-		                <div ng-controller="TestController" class="col-sm-12" style="height:800px; border-radius: 20px; text-align: center; background-color:#fff">
+		                <div class="col-sm-12" style="height:800px; border-radius: 20px; text-align: center; background-color:#fff">
 		                    <button ng-click="TestClick()">Click Me!</button>
 		                </div>
 		            </div>
