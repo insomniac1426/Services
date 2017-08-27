@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Random;
 
 
 @Path("/login")
@@ -98,31 +99,6 @@ public class MyServices {
 		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 	}
 	
-	/*
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/signupUser/")
-	public Response signupUser(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
-		JSONObject inputJsonObj = new JSONObject(data);
-		String username= inputJsonObj.getString("username");
-		String password = inputJsonObj.getString("password");
-		String Fullname = inputJsonObj.getString("Fullname");
-		String address = inputJsonObj.getString("address");
-		String p_group = inputJsonObj.getString("p_group");
-		BankUser b = new BankUser(username,Fullname,address,p_group);
-		GenericUser gu = new GenericUser(username,password,false, false, false);
-		System.out.println(b);
-		
-		if(CustomerDaoImpl.insertIntoCustomers(gu,b)) {
-			return Response.ok("SignupSuccess").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
-		}
-		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
-	}
-	
-	*/
-	
-
 	
 	@GET
 	@Path("/fetchCustomerDetails/{uname}")
@@ -206,6 +182,52 @@ public class MyServices {
 		
 		
 		return null;
+	}
+	
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/forgotPassword")
+	public Response forgotPassword(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
+		
+		System.out.println("entered into forgotPassword service");
+				
+		JSONObject inputJsonObj = new JSONObject(data);
+		String customerEmail = inputJsonObj.getString("email");		
+		String subjectToSend="Password change request";
+		Random rand = new Random();			 
+		String randomString   = Integer.toString(rand.nextInt(5000));
+		System.out.println("the random string generated is"+randomString);
+		String messageToSend = "Hi!! To reset the password kindly click the link. \n" + "\n<a href='http://localhost:8080/MyRestDemo/pages/ChangePassword.htm?token="+randomString+"'>Reset password</a>";
+		
+		
+
+		System.out.print(customerEmail + " this is the email where i have to send the message");
+		MyMailClass.sendMail(customerEmail ,messageToSend,subjectToSend);
+		
+		/*try {
+			//URL myURL = new URL("http://localhost:8080/MyRestDemo/pages/ChangePassword.htm");
+			//String messageToSend="http://localhost:8080/MyRestDemo/pages/ChangePassword.htm";
+			//messageBodyPart.setText(html, "UTF-8", "html");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("url not formed properly!!");
+			e.printStackTrace();
+		}*/
+		
+		//String customerEmail =http://localhost:8080/MyRestDemo/pages/ChangePassword.htm
+		//GenericUser gu = GenericUserDaoImpl.searchUser(Uri);//check in database using email id
+		//if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
+		
+		//construct url		
+		
+			
+		
+				
+	    return Response.ok("Logged in Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();  // Here we can redirect to the landing page
+				
+	
+		
 	}
 			
 }
