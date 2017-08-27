@@ -170,14 +170,14 @@ app.controller("mySignupSwitch", ["$scope", function($scope) {
 
 
  
-app.controller("LoginController", ["$valid","$scope", "$http", "$httpParamSerializer", "$window", function($valid,$scope, $http, $httpParamSerializer, $window) {
-
+app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$window", function($scope, $http, $httpParamSerializer, $window) {
+	console.log("controller loaded");
     $scope.UserNameMod = "";
     $scope.PasswordMod = "";
-    console.log("controller loaded")
+    
     $scope.LoginClick = function () {
         console.log("Clicked")
-        if (($scope.UserNameMod != "") && ($scope.PasswordMod != "")) {
+        if (($scope.UserNameMod != "undefined") && ($scope.PasswordMod != "undefined")) {
             var data = {
                 username: $scope.UserNameMod,
                 password: $scope.PasswordMod
@@ -226,7 +226,7 @@ app.controller("TestController", ["$scope", "$http", function($scope, $http) {
 var Signupapp = angular.module("SignupApp", []);
 
 Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSerializer", "$window", function($scope, $http, $httpParamSerializer, $window){
-		
+	console.log("hii");
 	$scope.UserNameMod = "";
     $scope.EmailMod = "";
     $scope.Password = "";
@@ -243,7 +243,7 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
     
     $scope.SubmitSignup = function () {
 
-	    if ((myForm.myInput.$valid)&&($scope.Password == $scope.RePassword)){
+	    if (($scope.Password == $scope.RePassword)){
 	       var data = {
 	            name: $scope.UserNameMod,
 	            email:$scope.EmailMod,

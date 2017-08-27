@@ -13,7 +13,7 @@
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     
 	<title>Signup Page For Customer</title>
 	
@@ -100,7 +100,7 @@
 
 
 </head>
-<body class = "container" > 
+<body class = "container" ng-app= "SignupApp" ng-controller="SignupCustController"> 
 	<div class = "row">
 		<!--Main Container (White)-->
 		<div class = "col-sm-offset-2 col-sm-8" id = "MainContainer1">
@@ -116,8 +116,7 @@
 					<h1 style="font-size: 200%;"><b>SignUp !</b></h1>
 				</div>
 			</div>
-			<div class = "row"  ng-app= "SignupApp" ng-controller="SignupCustController" >
-			
+			<div class = "row"   >
 				<div class = "col-sm-12" id = "SecondMainContainer" style="">
 					<div class = "row">
 						<div class = "col-sm-6" id="FormContiner" style=" ">

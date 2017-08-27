@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -135,6 +136,59 @@ public class MyServices {
 		Customer c = CustomerDaoImpl.searchCustomer(Uname);
 		if(c == null)	{ return null; }
 		return c.convertObjectToJSON();
+	}
+	
+	
+	
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/updateDetails/")
+
+	public Response addDetails(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
+		JSONObject JsonObj = new JSONObject(data);
+		System.out.println("hi");
+		//String username = JsonObj.getString("Username");
+		String swift = JsonObj.getString("Swift");
+		int accnumber = JsonObj.getInt("AccNumber");
+		int contnumber = JsonObj.getInt("ContNumber");
+		String postallocation = JsonObj.getString("PostalLocation");
+		String postalcity = JsonObj.getString("PostalCity");
+		String postalstate = JsonObj.getString("PostalState");
+		String factorylocation = JsonObj.getString("FactoryLocation");
+		String factorycity = JsonObj.getString("FactoryCity");
+		String factorystate = JsonObj.getString("FactoryState");
+		String department = JsonObj.getString("Department");
+		String username = "neha";
+		return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		/*
+		AdditionalDetails ad = new AdditionalDetails(username,swift, accnumber, contnumber, postallocation, factorylocation, postalcity, factorycity, postalstate, factorystate, department);
+		if (AdditionalDetailsDao.insertIntoAdditionalDetails(ad))
+		{
+			return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		}
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();*/
+	}
+
+
+
+
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/updateProducts/")
+	public Response addproducts(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
+		JSONObject JsonObj = new JSONObject(data);
+		JSONArray productCategories = JsonObj.getJSONArray("UserProductsCategories");
+		JSONArray products = JsonObj.getJSONArray("UserProducts");
+		String username = "neha";
+		String[] prod = new String[products.length()];
+		
+		System.out.println(products);
+		System.out.println(productCategories);
+		
+		
+		return null;
 	}
 			
 }
