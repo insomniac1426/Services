@@ -13,8 +13,8 @@ public class BankUser{
     String address;
 	String p_group;
 	//ctor
-	public BankUser( String Fullname,String address,String p_group) {
-		super();
+	public BankUser(String Username,String Fullname,String address,String p_group) {
+	//	super();
 		this.Username=Username;
 		this.Fullname = Fullname;
 		this.address=address;
@@ -51,7 +51,7 @@ public class BankUser{
 	}
 	@Override
 	public String toString() {
-		return "BankUser [ Fullname=" + Fullname + " , address="+ address + ", p_group=" + p_group + "]";
+		return "BankUser [Username="+"Username"+ ",Fullname=" + Fullname + " , address="+ address + ", p_group=" + p_group + "]";
 	}
 
 

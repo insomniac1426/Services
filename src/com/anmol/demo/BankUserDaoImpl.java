@@ -21,30 +21,32 @@ Initially, cursor points to before the first row.*/
 		BankUser gu = null;
 		if(res != null) {
 			while(res.next()) {
-				
-				String Fullname= res.getString("1");
-				String address= res.getString("2");
-				String p_group = res.getString("3");
-				gu = new BankUser(Fullname,address,p_group);
+				String Username= res.getString("1");
+				String Fullname= res.getString("2");
+				String address= res.getString("3");
+				String p_group = res.getString("4");
+				gu = new BankUser(Username,Fullname,address,p_group);
 			}
 		}
 		return gu;
 	}
 	
-	public static boolean insertIntoBankUser(BankUser c) throws SQLException {
+	public static boolean insertIntoBankUser(GenericUser u,BankUser c) throws SQLException {
 		
 		//if(checkUsernameExistence(c.email)) { return false; }
-		
-		Connection conn = SQLConnection.getConnection();
-		/*PreparedStatement for parameterized query like insert();*/
-		PreparedStatement st = conn.prepareStatement("INSERT INTO Bank_user values(?,?,?)");
-		st.setString(1, c.Fullname);
-		st.setString(2, c.address);
-		st.setString(3, c.p_group);
-		st.executeUpdate();
-		return true;
+		if(GenericUserDaoImpl.insertIntoUser(u)) {
+			Connection conn = SQLConnection.getConnection();
+			/*PreparedStatement for parameterized query like insert();*/
+			PreparedStatement st = conn.prepareStatement("INSERT INTO \"Bank_user\" values(?,?,?,?)");
+			st.setString(1, c.getUsername());
+			st.setString(2, c.getFullname());
+			st.setString(3, c.getaddress());
+			st.setString(4, c.getp_group());
+			st.executeUpdate();
+			return true;
+		}
+		return false;
 	}
-	
 	
 	
 

@@ -274,6 +274,51 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
 }]);
 
 
+var Signupuserapp = angular.module("SignupUserApp", []);
+
+Signupuserapp.controller("SignupUserController", ["$scope", "$http", "$httpParamSerializer", "$window", function($scope, $http, $httpParamSerializer, $window){
+		
+	$scope.CorpIDMod = "";
+    $scope.FullnameMod = "";
+    $scope.PasswordMod = "";
+    $scope.RePassword = "";
+    $scope.addressMod = "";
+    $scope.privgrpModel = "";
+    
+    $scope.SubmitSignup = function () {
+	    if ($scope.PasswordMod == $scope.RePassword){
+	    	var data = {
+	            CorpID: $scope.CorpIDMod,
+	            Fullname: $scope.FullnameMod,
+	            Password: $scope.PasswordMod,
+	            address: $scope.addressMod,
+	            privgrp: $scope.privgrpModel 
+	        }
+	    	console.log(data);
+	    	var promise = $http({
+	            url: 'http://localhost:8080/MyRestDemo/rest/login/signupUser/',
+	            method: 'POST',
+	            headers: { 'Content-Type': 'text/plain' },
+	            data: {
+	            	CorpID: $scope.CorpIDMod,
+	 	            Fullname:$scope.FullnameMod,
+	 	            Password: $scope.PasswordMod,
+	 	            address:$scope.addressMod,
+	 	            privgrp:$scope.privgrpModel 
+	            }
+	        });
+	        promise.then(function(response){	        	
+	        	$window.location.href = './HomePage.html'
+	        	console.log(response.data);
+	        });
+	    } else {
+	    	 console.log("credentials not matching"); 
+	    }
+    }
+	
+}]);
+
+
 
 
 

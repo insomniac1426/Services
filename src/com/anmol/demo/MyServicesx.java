@@ -1,4 +1,4 @@
-package com.anmol.demo;
+package com.temp.source.Shailza;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,11 +15,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 
@@ -33,22 +33,17 @@ public class MyServices {
 	@Path("/checkCredentials/")
 	public Response authenticateUser(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
 		JSONObject inputJsonObj = new JSONObject(data);
-		System.out.println("hi0");
 		String username = inputJsonObj.getString("username");
 		String password = inputJsonObj.getString("password");
-		
 		GenericUser gu = GenericUserDaoImpl.searchUser(username);
 		if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
-		System.out.println("hi");
 		if(password.equals(gu.getPassword())) {
 			String TypeOfUser = null;
-			
 			if (gu.get_is_Bank_User()) {
 				TypeOfUser = "Bank";
 			} else {
 				TypeOfUser = "Customer";
 			}
-			
 			Session s = new Session(gu.getUsername(), TypeOfUser);
 			HttpSession hs = request.getSession();//CREATE A SESSION FOR THE USER.
 			hs.setAttribute("session", s);
@@ -98,41 +93,6 @@ public class MyServices {
 		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 	}
 	
-	/*
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/signupUser/")
-	public Response signupUser(String data, @Context HttpServletRequest request) throws SQLException, JSONException{
-		JSONObject inputJsonObj = new JSONObject(data);
-		String username= inputJsonObj.getString("username");
-		String password = inputJsonObj.getString("password");
-		String Fullname = inputJsonObj.getString("Fullname");
-		String address = inputJsonObj.getString("address");
-		String p_group = inputJsonObj.getString("p_group");
-		BankUser b = new BankUser(username,Fullname,address,p_group);
-		GenericUser gu = new GenericUser(username,password,false, false, false);
-		System.out.println(b);
-		
-		if(CustomerDaoImpl.insertIntoCustomers(gu,b)) {
-			return Response.ok("SignupSuccess").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
-		}
-		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
-	}
-	
-	*/
-	
-
-	
-	@GET
-	@Path("/fetchCustomerDetails/{uname}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String fetchCustomerDetails(@QueryParam("uname") String Uname ,@Context HttpServletRequest request) throws SQLException, JsonGenerationException, JsonMappingException, IOException{
-		Customer c = CustomerDaoImpl.searchCustomer(Uname);
-		if(c == null)	{ return null; }
-		return c.convertObjectToJSON();
-	}
-	
 	
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
@@ -157,55 +117,20 @@ public class MyServices {
 	
 	
 	
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/updateDetails/")
-
-	public Response addDetails(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
-		JSONObject JsonObj = new JSONObject(data);
-		System.out.println("hi");
-		//String username = JsonObj.getString("Username");
-		String swift = JsonObj.getString("Swift");
-		int accnumber = JsonObj.getInt("AccNumber");
-		int contnumber = JsonObj.getInt("ContNumber");
-		String postallocation = JsonObj.getString("PostalLocation");
-		String postalcity = JsonObj.getString("PostalCity");
-		String postalstate = JsonObj.getString("PostalState");
-		String factorylocation = JsonObj.getString("FactoryLocation");
-		String factorycity = JsonObj.getString("FactoryCity");
-		String factorystate = JsonObj.getString("FactoryState");
-		String department = JsonObj.getString("Department");
-		String username = "neha";
-		return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
-		/*
-		AdditionalDetails ad = new AdditionalDetails(username,swift, accnumber, contnumber, postallocation, factorylocation, postalcity, factorycity, postalstate, factorystate, department);
-		if (AdditionalDetailsDao.insertIntoAdditionalDetails(ad))
-		{
-			return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
-		}
-		return Response.serverError().status(Status.EXPECTATION_FAILED).build();*/
-	}
-
-
-
-
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/updateProducts/")
-	public Response addproducts(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
-		JSONObject JsonObj = new JSONObject(data);
-		JSONArray productCategories = JsonObj.getJSONArray("UserProductsCategories");
-		JSONArray products = JsonObj.getJSONArray("UserProducts");
-		String username = "neha";
-		String[] prod = new String[products.length()];
-		
-		System.out.println(products);
-		System.out.println(productCategories);
-		
-		
-		return null;
+	
+	
+	
+	
+	
+	
+	
+	@GET
+	@Path("/fetchCustomerDetails/{uname}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchCustomerDetails(@QueryParam("uname") String Uname ,@Context HttpServletRequest request) throws SQLException, JsonGenerationException, JsonMappingException, IOException{
+		Customer c = CustomerDaoImpl.searchCustomer(Uname);
+		if(c == null)	{ return null; }
+		return c.convertObjectToJSON();
 	}
 			
 }
