@@ -201,41 +201,51 @@ public class MyServices {
 		System.out.println("entered into forgotPassword service");
 				
 		JSONObject inputJsonObj = new JSONObject(data);
-		String customerEmail = inputJsonObj.getString("email");		
+		String customerEmail = inputJsonObj.getString("email");	
+		// check db 
+		
+		GenericUser gu = GenericUserDaoImpl.searchUser(customerEmail);
+		if (gu == null) {
+			return Response.serverError().status(Status.EXPECTATION_FAILED).build();
+		}
+		
 		String subjectToSend="Password change request";
 		Random rand = new Random();			 
 		String randomString   = Integer.toString(rand.nextInt(5000));
+		// db store token
+		
+		GenericUserDaoImpl.addToPwdTable(gu, randomString);
+			
+		
 		System.out.println("the random string generated is"+randomString);
-		String messageToSend = "Hi!! To reset the password kindly click the link. \n" + "\n<a href='http://localhost:8080/MyRestDemo/pages/ChangePassword.htm?token="+randomString+"'>Reset password</a>";
+		String messageToSend = "Hi!! To reset the password kindly click the link. \n" + "\n<a href='http://localhost:8089/MyRestDemo/pages/ChangePassword.htm?"+randomString+"'>Reset password</a>";
 		
-		
-
 		System.out.print(customerEmail + " this is the email where i have to send the message");
-		MyMailClass.sendMail(customerEmail ,messageToSend,subjectToSend);
-		
-		/*try {
-			//URL myURL = new URL("http://localhost:8080/MyRestDemo/pages/ChangePassword.htm");
-			//String messageToSend="http://localhost:8080/MyRestDemo/pages/ChangePassword.htm";
-			//messageBodyPart.setText(html, "UTF-8", "html");
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("url not formed properly!!");
-			e.printStackTrace();
-		}*/
-		
-		//String customerEmail =http://localhost:8080/MyRestDemo/pages/ChangePassword.htm
-		//GenericUser gu = GenericUserDaoImpl.searchUser(Uri);//check in database using email id
-		//if(gu == null)	{ return Response.serverError().status(Status.EXPECTATION_FAILED).build(); }
-		
-		//construct url		
-		
+		MyMailClass.sendMail(customerEmail ,messageToSend,subjectToSend);		
 			
-		
-				
-	    return Response.ok("Logged in Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();  // Here we can redirect to the landing page
-				
-	
-		
+	    return Response.ok("Mailed Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();  // Here we can redirect to the landing page
 	}
-			
+	
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/saveNewPassword")
+	public Response changePassword(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
+		
+		System.out.println("entered into change Password service");
+		
+		JSONObject inputJsonObj = new JSONObject(data);
+		String newPassword = inputJsonObj.getString("newPassword");
+		String token = inputJsonObj.getString("token");
+		//token 
+		System.out.print(newPassword + " this is the password that i have to now chnage in db");
+		System.out.print(token + " this is the token for the user id");
+		
+		String Username = GenericUserDaoImpl.GetUserFromToken(token);
+		if (Username != null) {
+			 GenericUserDaoImpl.ChangePwdUser(Username, newPassword);
+			 return Response.ok("Logged in Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		}
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
+	}
 }

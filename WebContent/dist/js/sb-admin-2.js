@@ -184,7 +184,7 @@ app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$
             }
            
             var promise = $http({
-                url: 'http://localhost:8080/MyRestDemo/rest/login/checkCredentials',
+                url: 'http://localhost:8089/MyRestDemo/rest/login/checkCredentials',
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain' },
                 data: {
@@ -214,7 +214,7 @@ testSession.controller("TestController", ["$scope", "$http", "$window", function
     $scope.PasswordMod = "";
     console.log("controller loaded");
     var promise = $http({
-        url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+        url: 'http://localhost:8089/MyRestDemo/rest/login/getUserInfo',
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' }
     });
@@ -235,7 +235,7 @@ testSession.controller("TestController", ["$scope", "$http", "$window", function
     $scope.TestClick = function () {
 
         var promise = $http({
-            url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+            url: 'http://localhost:8089/MyRestDemo/rest/login/getUserInfo',
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' }
         });
@@ -281,7 +281,7 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
 	        }
 	       console.log(data);
 	        var promise = $http({
-	            url: 'http://localhost:8080/MyRestDemo/rest/login/signupCustomer/',
+	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
 	            method: 'POST',
 	            headers: { 'Content-Type': 'text/plain' },
 	            data: {
@@ -326,7 +326,7 @@ Signupuserapp.controller("SignupUserController", ["$scope", "$http", "$httpParam
 	        }
 	    	console.log(data);
 	    	var promise = $http({
-	            url: 'http://localhost:8080/MyRestDemo/rest/login/signupUser/',
+	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupUser/',
 	            method: 'POST',
 	            headers: { 'Content-Type': 'text/plain' },
 	            data: {

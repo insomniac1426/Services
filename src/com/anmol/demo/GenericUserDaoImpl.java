@@ -44,7 +44,7 @@ public class GenericUserDaoImpl{
 	}
 	
 	
-public static boolean insertIntoUser(GenericUser gu) throws SQLException {
+	public static boolean insertIntoUser(GenericUser gu) throws SQLException {
 		
 		//if(checkUsernameExistence(c.email)) { return false; }
 		
@@ -56,6 +56,45 @@ public static boolean insertIntoUser(GenericUser gu) throws SQLException {
 		st.setBoolean(4, gu.isConfirmed());
 		st.setBoolean(5, gu.get_is_Bank_User());
 		st.executeUpdate();
+		
+		return true;
+	}
+	
+	public static boolean addToPwdTable (GenericUser gu, String token) throws SQLException {
+		Connection conn = SQLConnection.getConnection();
+		Statement ss = conn.createStatement();
+		String str = "DELETE FROM \"Forgot_Password\" WHERE \"Username\" = '" +gu.getUsername() + "'";
+		ss.executeUpdate(str);
+		PreparedStatement st = conn.prepareStatement("INSERT INTO \"Forgot_Password\" values" + "(?,?)");
+		st.setString(1, gu.getUsername());
+		st.setString(2, token);
+		st.executeUpdate();
+		return true;
+	}
+	
+	public static String GetUserFromToken (String token) throws SQLException {
+		res = null;
+		Connection conn = SQLConnection.getConnection();
+		Statement ss = conn.createStatement();
+		String str = "select \"Username\" from \"Forgot_Password\" where \"Token\" = '" + token + "'";
+		res = ss.executeQuery(str);
+		
+		if (res.next()) {
+			return res.getString(1);
+		}
+		return null;
+	}
+	
+	public static boolean ChangePwdUser (String username, String password) throws SQLException {
+		
+		Connection conn = SQLConnection.getConnection();
+		Statement ss = conn.createStatement();
+		String str = "UPDATE \"User\" SET \"Password\" = '" + password + "' WHERE \"Username\" = '" + username + "'";
+		ss.executeUpdate(str);
+		
+		ss = conn.createStatement();
+		str = "DELETE FROM \"Forgot_Password\" WHERE \"Username\" = '" + username + "'";
+		ss.executeUpdate(str);
 		
 		return true;
 	}
