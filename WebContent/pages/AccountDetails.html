@@ -566,7 +566,7 @@
             	console.log($scope.arrayCateg);
             	console.log($scope.arraySub);
             	var whatever = $http({
-            		url: 'http://localhost:8080/MyRestDemo/rest/login/updateProducts',
+            		url: 'http://localhost:8089/MyRestDemo/rest/login/updateProducts',
             		method: 'POST',
             		headers: { 'Content-Type': 'text/plain' },
             		data:{
@@ -587,7 +587,7 @@
 		    $scope.PasswordMod = "";
 		    console.log("controller loaded");
 		    var promise = $http({
-		        url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+		        url: 'http://localhost:8089/MyRestDemo/rest/login/getUserInfo',
 		        method: 'POST',
 		        headers: { 'Content-Type': 'text/plain' }
 		    });
@@ -608,7 +608,7 @@
 		    $scope.TestClick = function () {
 
 		        var promise = $http({
-		            url: 'http://localhost:8080/MyRestDemo/rest/login/getUserInfo',
+		            url: 'http://localhost:8089/MyRestDemo/rest/login/getUserInfo',
 		            method: 'POST',
 		            headers: { 'Content-Type': 'text/plain' }
 		        });
@@ -642,7 +642,7 @@
             	}
             	console.log(data);
             	var whatever = $http({
-            		url: 'http://localhost:8080/MyRestDemo/rest/login/updateDetails',
+            		url: 'http://localhost:8089/MyRestDemo/rest/login/updateDetails',
             		method: 'POST',
             		headers: { 'Content-Type': 'text/plain' },
             		data:{

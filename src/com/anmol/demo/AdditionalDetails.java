@@ -7,8 +7,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 public class AdditionalDetails {
-	String username = "neha";
-	
+	String username;
 	int contNumber;
 	String swift;
 	int accNumber;
@@ -35,6 +34,7 @@ public class AdditionalDetails {
 		this.postalState = postalState;
 		this.factoryState = factoryState;
 		this.department = department;
+		this.username = username;
 	}
 	public String getUsername() {
 		return username;

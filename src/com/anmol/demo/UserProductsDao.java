@@ -1,19 +1,24 @@
 package com.anmol.demo;
+import java.sql.Connection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 public class UserProductsDao {
 
 	
 	public static boolean insertIntoProducts(UserProducts up) throws SQLException {
 			int i=0;
 			Connection conn = SQLConnection.getConnection();
-			for (i=0; i<up.userProducts.length; i++)
-			{PreparedStatement st = conn.prepareStatement("INSERT INTO /'User_products/' values(?,?)");
-			st.setString(1, up.username);
-			st.setString(2, up.userProducts[i]);
-			st.executeUpdate();
+			Statement ss = conn.createStatement();
+			String str = "DELETE from \"User_products\" where \"Username\" ='" + up.getUsername() + "'";
+			ss.executeUpdate(str);
+			for (i=0; i<up.getUserProducts().length; i++)
+				{PreparedStatement st = conn.prepareStatement("INSERT INTO \"User_products\" values(?,?)");
+				st.setString(1, up.getUsername());
+				st.setString(2, (up.getUserProducts())[i]);
+				st.executeUpdate();
 			}
 			
 			return true;

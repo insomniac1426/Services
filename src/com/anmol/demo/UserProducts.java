@@ -7,12 +7,21 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 public class UserProducts {
-	String username;
-	String[] electronics={"mobile", "camera"};
-	String[] appliances={"refrigerator", "microwave"};
-	String[] clothing = {"shirts", "pants"};
-	String[][] allProducts = {electronics, appliances, clothing};
-	String[] userProducts = new String[6];
+	private String username;
+	private String[] userProducts = new String[6];
+	
+	public UserProducts(String username, String[] userProducts) {
+		super();
+		this.username = username;
+		this.userProducts = userProducts;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String[] getUserProducts() {
 		return userProducts;
 	}

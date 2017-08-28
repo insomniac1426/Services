@@ -133,6 +133,7 @@ public class MyServices {
 	
 	
 	
+
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
@@ -141,7 +142,8 @@ public class MyServices {
 	public Response addDetails(String data, @Context HttpServletRequest request) throws SQLException, JSONException {
 		JSONObject JsonObj = new JSONObject(data);
 		System.out.println("hi");
-		//String username = JsonObj.getString("Username");
+		Session s = SessionUtility.sessionValidation(request);
+		String username = s.userId;
 		String swift = JsonObj.getString("Swift");
 		int accnumber = JsonObj.getInt("AccNumber");
 		int contnumber = JsonObj.getInt("ContNumber");
@@ -152,17 +154,16 @@ public class MyServices {
 		String factorycity = JsonObj.getString("FactoryCity");
 		String factorystate = JsonObj.getString("FactoryState");
 		String department = JsonObj.getString("Department");
-		String username = "neha";
-		return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
-		/*
+		//String username = "neha";
+		//return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		
 		AdditionalDetails ad = new AdditionalDetails(username,swift, accnumber, contnumber, postallocation, factorylocation, postalcity, factorycity, postalstate, factorystate, department);
 		if (AdditionalDetailsDao.insertIntoAdditionalDetails(ad))
 		{
 			return Response.ok("Details updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
 		}
-		return Response.serverError().status(Status.EXPECTATION_FAILED).build();*/
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 	}
-
 
 
 
@@ -174,14 +175,21 @@ public class MyServices {
 		JSONObject JsonObj = new JSONObject(data);
 		JSONArray productCategories = JsonObj.getJSONArray("UserProductsCategories");
 		JSONArray products = JsonObj.getJSONArray("UserProducts");
-		String username = "neha";
-		String[] prod = new String[products.length()];
+		Session s = SessionUtility.sessionValidation(request);
+		String username = s.userId;
 		
+		String[] prod = new String[products.length()];
 		System.out.println(products);
 		System.out.println(productCategories);
+		for (int j=0; j<products.length(); j++) {
+			prod[j]=(products.get(j).toString());	
+		}
+		UserProducts up = new UserProducts(username, prod);
+		if ( UserProductsDao.insertIntoProducts(up)) {
+			return Response.ok("Products updated Successfully").header("Access-Control-Allow-Origin", "*").status(Status.OK).build();
+		}
 		
-		
-		return null;
+		return Response.serverError().status(Status.EXPECTATION_FAILED).build();
 	}
 	
 	@POST
