@@ -263,17 +263,11 @@
                                         <button data-toggle="collapse" data-target="#CollapsibleUserAccountEdit" style="width:100px;background-color: #469c2a; border-radius:10px; box-shadow: 0px 2px 40px 0px rgba(0,0,0,0.1); border:0px;color: white;"><b>Edit Profile</b>
                                         </button>
                                     </div>
-                                    <div class = "col-sm-offset-1 col-sm-7" style="background-color: #f7f7f7; border-radius: 20px;">
-                                     
-                                        name: yash
-                                        <br>
-                                        <br>
-                                        add: coho
-                                        <br>
-                                        <br>
-                                        works at:owner
-                                        <br>
-                                        <br>
+                                    <div class = "col-sm-offset-1 col-sm-7" style="color:#333; background-color: #f7f7f7; border-radius: 20px;">
+                                      <b><h4>
+                                        Name: {{sessionUsername}}<br>
+         								Type: {{sessionUsertype}}                               
+         							  </h4></b>
                                     </div>
                                 </div>
                             
@@ -584,6 +578,9 @@
 			
 		    $scope.UserNameMod = "";
 		    $scope.PasswordMod = "";
+		    $scope.sessionUsername = "";
+		    $scope.sessionUsertype = "";
+		    
 		    console.log("controller loaded");
 		    var promise = $http({
 		        url: 'http://localhost:8089/MyRestDemo/rest/login/getUserInfo',
@@ -596,6 +593,8 @@
 		    	if (response.data == "no session") {
 		    		$window.location.href = './HomePage.html'
 		    	} else {
+		    		$scope.sessionUsertype = response.data.userType;
+		    		$scope.sessionUsername = response.data.username;
 		    		console.log(response.data.username);
 		        	console.log(response.data.userType);
 		    	//var data = JSON.parse(response.data)
