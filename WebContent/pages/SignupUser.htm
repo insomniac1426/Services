@@ -157,7 +157,7 @@
 										<div class="FormInputLabels">
 											<p style="margin-bottom: 0px"><b>Full Name</b></p>
 										</div>
-										<input type="input" name="name" ng-model="FullnameMod" class="FormTextInputs" required/>
+										<input type="text" name="name" ng-model="FullnameMod" class="FormTextInputs" required/>
 									</div>
 								</div>
 								<br>
@@ -175,7 +175,7 @@
 										<div class= "FormInputLabels">
 											<p style="margin-bottom: 0px"><b>Retype Password</b></p>
 										</div>
-										<input type="input" name="RePassword"  ng-model="RePassword" class="FormTextInputs" required />
+										<input type="Password" name="RePassword"  ng-model="RePassword" class="FormTextInputs" required />
 									</div>
 								</div>
 								<br>
@@ -191,7 +191,7 @@
 								<div class = "row">
 									<div class = "col-sm-offset-2 col-sm-8 FormInputs">
 										<div class="FormInputLabels">
-											<p style="margin-bottom: 0px"><b>Privilage Group</b></p>
+											<p style="margin-bottom: 0px"><b>Privilege Group</b></p>
 										</div>
 										<input type="input" name="privgrp"  ng-model="privgrpModel" class="FormTextInputs" required/>
 									</div>
@@ -217,7 +217,7 @@
 								<br>
 								<div class="row">
 									<div class = "col-sm-offset-1 col-sm-5">
-										<input type="checkbox" name="terms" value="terms" required style="float:left;" />
+										<input type="checkbox" ng-model="termChecked" name="terms" value="terms" required style="float:left;" />
 										<p style="text-align:center; float: left; color:white; text-decoration:none;">I accept the terms</p>
 									</div>
 									<div class = "col-sm-offset-1 col-sm-4">

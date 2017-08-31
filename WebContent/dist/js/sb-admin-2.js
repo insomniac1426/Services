@@ -261,45 +261,59 @@ Signupapp.controller("SignupCustController", ["$scope", "$http", "$httpParamSeri
     $scope.EmailMod = "";
     $scope.Password = "";
     $scope.RePassword = "";
-    $scope.validclass="";
-    
+    $scope.termChecked=false;
+   /* $scope.validclass="";    
     $scope.chkValidation = function() {
         if ($scope.Password == $scope.RePassword) {
             $scope.validclass="changedcorrect";
         } else {
             $scope.validclass="changedincorrect";
         }
-    }
-    
+    }*/
+    console.log($scope.termChecked);
     $scope.SubmitSignup = function () {
 
-	    if (($scope.Password == $scope.RePassword)){
-	       var data = {
-	            name: $scope.UserNameMod,
-	            email:$scope.EmailMod,
-	            password: $scope.Password
-	        }
-	       console.log(data);
-	        var promise = $http({
-	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
-	            method: 'POST',
-	            headers: { 'Content-Type': 'text/plain' },
-	            data: {
-	            	name: $scope.UserNameMod,
-	                email:$scope.EmailMod,
-	                password: $scope.Password
-	            }
-	        });
-	        promise.then(function(response){
-	            //$location.url('./Dashboard.html')
-	        	
-	        	$window.location.href = './HomePage.html'
-	        	console.log(response.data);
-	        });
-	    } else {
-	    	 console.log("credentials not matching"); 
-	    }
-    }
+    	if(!($scope.UserNameMod && $scope.EmailMod && $scope.Password && $scope.RePassword)){
+    		window.alert("You have not entered all the information!")
+    		
+    	}else{
+    		
+    		if($scope.termChecked==false){
+    			  console.log("it has nottt been checked ");
+        		  window.alert("Please agree to the terms and conditions!")
+        	}else{
+        		
+        		if ($scope.Password == $scope.RePassword ){
+          	      /* var data = {
+          	            name: $scope.UserNameMod,
+          	            email:$scope.EmailMod,
+          	            password: $scope.Password
+          	        }*/
+          	       console.log(" in submit signup:  customername"+ $scope.UserNameMod + " email "+  $scope.EmailMod);
+          	        var promise = $http({
+          	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupCustomer/',
+          	            method: 'POST',
+          	            headers: { 'Content-Type': 'text/plain' },
+          	            data: {
+          	            	name: $scope.UserNameMod,
+          	                email:$scope.EmailMod,
+          	                password: $scope.Password
+          	            }
+          	        });
+          	        promise.then(function(response){
+          	            //$location.url('./Dashboard.html')    	        	
+          	        	$window.location.href = './HomePage.html'
+          	        	console.log(response.data);
+          	        });
+          	    } else{
+            			$scope.Password="";    	  	
+               	  	    $scope.RePassword="";
+            			window.alert("Entered passwords dont match, please enter password again!")
+          				
+            		}
+        	}    		
+         }
+    	}   	
 	
 }]);
 
@@ -314,36 +328,53 @@ Signupuserapp.controller("SignupUserController", ["$scope", "$http", "$httpParam
     $scope.RePassword = "";
     $scope.addressMod = "";
     $scope.privgrpModel = "";
+    $scope.termChecked=false;
+    
     
     $scope.SubmitSignup = function () {
-	    if ($scope.PasswordMod == $scope.RePassword){
-	    	var data = {
-	            CorpID: $scope.CorpIDMod,
-	            Fullname: $scope.FullnameMod,
-	            Password: $scope.PasswordMod,
-	            address: $scope.addressMod,
-	            privgrp: $scope.privgrpModel 
-	        }
-	    	console.log(data);
-	    	var promise = $http({
-	            url: 'http://localhost:8089/MyRestDemo/rest/login/signupUser/',
-	            method: 'POST',
-	            headers: { 'Content-Type': 'text/plain' },
-	            data: {
-	            	CorpID: $scope.CorpIDMod,
-	 	            Fullname:$scope.FullnameMod,
-	 	            Password: $scope.PasswordMod,
-	 	            address:$scope.addressMod,
-	 	            privgrp:$scope.privgrpModel 
-	            }
-	        });
-	        promise.then(function(response){	        	
-	        	$window.location.href = './HomePage.html'
-	        	console.log(response.data);
-	        });
-	    } else {
-	    	 console.log("credentials not matching"); 
+    	console.log($scope.CorpIDMod,$scope.FullnameMod,$scope.PasswordMod,$scope.RePassword,$scope.addressMod,$scope.privgrpModel)
+	    if(!($scope.CorpIDMod && $scope.FullnameMod && $scope.PasswordMod &&  $scope.RePassword &&  $scope.addressMod && $scope.privgrpModel)){
+	    	window.alert("You have not entered all the information!")
+	    }else{
+	    	if($scope.termChecked==false){
+  			  console.log("it has nottt been checked ");
+      		  window.alert("Please agree to the terms and conditions!")
+      	    }else{
+      	    	if ($scope.PasswordMod == $scope.RePassword){
+    		    	var data = {
+    		            CorpID: $scope.CorpIDMod,
+    		            Fullname: $scope.FullnameMod,
+    		            Password: $scope.PasswordMod,
+    		            address: $scope.addressMod,
+    		            privgrp: $scope.privgrpModel 
+    		        }
+    		    	console.log(data);
+    		    	var promise = $http({
+    		            url: 'http://localhost:8089/MyRestDemo/rest/login/signupUser/',
+    		            method: 'POST',
+    		            headers: { 'Content-Type': 'text/plain' },
+    		            data: {
+    		            	CorpID: $scope.CorpIDMod,
+    		 	            Fullname:$scope.FullnameMod,
+    		 	            Password: $scope.PasswordMod,
+    		 	            address:$scope.addressMod,
+    		 	            privgrp:$scope.privgrpModel 
+    		            }
+    		        });
+    		        promise.then(function(response){	        	
+    		        	$window.location.href = './HomePage.html'
+    		        	console.log(response.data);
+    		        });
+    		    } else {
+    		    	$scope.PasswordMod="";    	  	
+    	   	  	    $scope.RePassword="";
+    				window.alert("Entered passwords dont match, please enter password again!")
+    					
+    		    }
+      	    }
+	    	
 	    }
+    	
     }
 	
 }]);
