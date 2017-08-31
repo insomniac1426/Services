@@ -176,13 +176,15 @@ app.controller("LoginController", ["$scope", "$http", "$httpParamSerializer", "$
     $scope.PasswordMod = "";
     
     $scope.LoginClick = function () {
-        console.log("Clicked")
-        if (($scope.UserNameMod != "undefined") && ($scope.PasswordMod != "undefined")) {
+        console.log("Clicked");
+        
+        if(!($scope.UserNameMod && $scope.PasswordMod)){
+    		window.alert("please enter all the details!")
+    	}else {
             var data = {
                 username: $scope.UserNameMod,
                 password: $scope.PasswordMod
-            }
-           
+            }           
             var promise = $http({
                 url: 'http://localhost:8089/MyRestDemo/rest/login/checkCredentials',
                 method: 'POST',
